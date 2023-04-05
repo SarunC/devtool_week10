@@ -15,22 +15,37 @@ pipeline {
             sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
           }
         }
-        stage('Pull from Docker') {
-          steps {
-               dir('Lab_jenkins_dockercompose') { // change directory to Lab_docker_Jenkins
-                    echo "Pull . ."
-                    sh "docker-compose pull"
-                }
-          }
-        }
-        stage('Start stage') {
+        stage('Stop Stage') {
             steps {
                 dir('Lab_jenkins_dockercompose') { // change directory to Lab_docker_Jenkins
-                    echo "Start . ."
+                    echo "Stop : Stop running image . . ."
+                    sh "docker-compose stop"
+                }
+            }
+        }
+        stage('Remove Stage') {
+            steps {
+                dir('Lab_jenkins_dockercompose') { // change directory to Lab_docker_Jenkins
+                    echo "Remove : Removing image . . ."
+                    sh "docker-compose down --rmi all --volumes || true"
+                }
+            }
+        }
+        stage('Pull Stage') {
+            steps {
+                dir('Lab_jenkins_dockercompose') { // change directory to Lab_docker_Jenkins
+                    echo "Pull : pulling image from dockerhub . . ."
+                    sh "docker-compose pull"
+                }
+            }
+        }
+        stage('Install Stage') {
+            steps {
+                dir('Lab_jenkins_dockercompose') { // change directory to Lab_docker_Jenkins
+                    echo "Install : Installing image to EC2 . . ."
                     sh "docker-compose up -d"
                 }
             }
         }
-
-}
+    }
 }
