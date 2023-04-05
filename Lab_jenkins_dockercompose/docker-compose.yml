@@ -6,7 +6,7 @@ services:
 
   frontend:
     build: ./web/frontend
-    image: rosjana63070145/frontend:1.0
+    image: sarunc/frontend:1.0
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost"]
       interval: 15s
@@ -23,7 +23,7 @@ services:
 
   backend:
     build: ./web/backend
-    image: rosjana63070145/backend:1.0
+    image: sarunc/backend:1.0
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost"]
       interval: 15s
