@@ -71,7 +71,7 @@ services:
     networks:
       - back-tier
 
-  # this service runs once to seed the database with votes
+  # this service runs once to seed the database with votes 
   # it won't run unless you specify the "seed" profile
   # docker compose --profile seed up -d
   seed:
