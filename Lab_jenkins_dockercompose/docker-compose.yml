@@ -21,7 +21,7 @@ services:
       - front-tier
       - back-tier
 
-   backend:
+  backend:
     build: ./web/backend
     image: sarunc/backend:1.0
     healthcheck:
