@@ -1,0 +1,41 @@
+# version is now using "compose spec"
+# v2 and v3 are now combined!
+# docker-compose v1.27+ required
+
+services:
+
+  frontend:
+    build: ./web/frontend
+    image: rosjana63070145/frontend:1.0
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+    ports:
+      - "8081:8081"
+    environment:
+      - APP_IMAGE=building.jpg
+    networks:
+      - front-tier
+      - back-tier
+
+  backend:
+    build: ./web/backend
+    image: rosjana63070145/backend:1.0
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+    ports:
+      - "8088:80"
+    networks:
+      - front-tier
+      - back-tier
+
+networks:
+  front-tier:
+  back-tier:
