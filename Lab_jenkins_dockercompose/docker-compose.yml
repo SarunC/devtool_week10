@@ -21,7 +21,7 @@ services:
       - front-tier
       - back-tier
 
-  backend:
+   backend:
     build: ./web/backend
     image: sarunc/backend:1.0
     healthcheck:
@@ -36,7 +36,8 @@ services:
       - front-tier
       - back-tier
       
-   vote:
+  
+  vote:
     build: ./vote
     # use python rather than gunicorn for local dev
     command: python app.py
