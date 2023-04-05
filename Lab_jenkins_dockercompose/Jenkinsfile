@@ -41,7 +41,7 @@ pipeline {
                 }
             }
         }
-        stage('Trigger Slave Dockerhub last up') {
+        stage('Trigger Slave Dockerhub') {
             steps {
                 dir('Lab_jenkins_dockercompose') { // change directory to Lab_docker_Jenkins
                     echo "Trigger : calling Slave job . . ."
