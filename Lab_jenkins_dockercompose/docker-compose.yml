@@ -1,42 +1,4 @@
-# version is now using "compose spec"
-# v2 and v3 are now combined!
-# docker-compose v1.27+ required
-
 services:
-
-  frontend:
-    build: ./web/frontend
-    image: sarunc/frontend:1.0
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost"]
-      interval: 15s
-      timeout: 5s
-      retries: 3
-      start_period: 10s
-    ports:
-      - "8081:8081"
-    environment:
-      - APP_IMAGE=building.jpg
-    networks:
-      - front-tier
-      - back-tier
-
-  backend:
-    build: ./web/backend
-    image: sarunc/backend:1.0
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost"]
-      interval: 15s
-      timeout: 5s
-      retries: 3
-      start_period: 10s
-    ports:
-      - "8088:80"
-    networks:
-      - front-tier
-      - back-tier
-      
-  
   vote:
     build: ./vote
     # use python rather than gunicorn for local dev
@@ -101,6 +63,7 @@ services:
       POSTGRES_USER: "postgres"
       POSTGRES_PASSWORD: "postgres"
     volumes:
+      - "db-data:/var/lib/postgresql/data"
       - "./healthchecks:/healthchecks"
     healthcheck:
       test: /healthchecks/postgres.sh
@@ -108,8 +71,22 @@ services:
     networks:
       - back-tier
 
+  # this service runs once to seed the database with votes
+  # it won't run unless you specify the "seed" profile
+  # docker compose --profile seed up -d
+  seed:
+    build: ./seed-data
+    profiles: ["seed"]
+    depends_on:
+      vote:
+        condition: service_healthy 
+    networks:
+      - front-tier
+    restart: "no"
 
-    
+volumes:
+  db-data:
+
 networks:
   front-tier:
   back-tier:
