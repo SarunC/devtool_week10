@@ -1,5 +1,5 @@
 ### VDO
-https://drive.google.com/drive/folders/1jjX8xcw6IPbmD55_zUYSCkTMoT9Jp-xx?usp=sharing
+https://drive.google.com/file/d/11VjwlNMqz-wxoAChjyyImPKQyQ5htgfW/view?usp=share_link
 
 # Install jenkins, docker, docker-compose, and git 
 
